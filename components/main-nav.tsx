@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { ThemeSwitcher } from "./theme-switcher";
 import { hasEnvVars } from "@/utils/supabase/check-env-vars";
-import HeaderAuth from "./header-auth";
+import AuthButton from "./header-auth";
 
 export function MainNav() {
   return (
@@ -30,7 +30,7 @@ export function MainNav() {
         
         <div className="flex items-center gap-4">
           <ThemeSwitcher />
-          {hasEnvVars ? <HeaderAuth /> : null}
+          {hasEnvVars ? <AuthButton /> : null}
         </div>
       </div>
     </nav>
