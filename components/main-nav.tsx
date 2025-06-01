@@ -1,8 +1,15 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { ThemeSwitcher } from "./theme-switcher";
-import { hasEnvVars } from "@/utils/supabase/check-env-vars";
-import HeaderAuth from "./header-auth";
+import dynamic from "next/dynamic";
+
+// Import the auth button with SSR disabled
+const AuthButton = dynamic(
+  () => import("./auth-button"),
+  { ssr: false, loading: () => <div className="h-10 w-24" /> }
+);
 
 export function MainNav() {
   return (
@@ -30,7 +37,7 @@ export function MainNav() {
         
         <div className="flex items-center gap-4">
           <ThemeSwitcher />
-          {hasEnvVars ? <HeaderAuth /> : null}
+          <AuthButton />
         </div>
       </div>
     </nav>
