@@ -9,7 +9,7 @@ import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 
-const AuthClientButton: React.FC = () => {
+const AuthButton = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -88,4 +88,4 @@ const AuthClientButton: React.FC = () => {
   );
 };
 
-export default AuthClientButton;
+export default AuthButton;
