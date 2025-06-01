@@ -7,9 +7,10 @@ import Link from "next/link";
 import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/client";
+import { User } from "@supabase/supabase-js";
 
 export default function AuthButton() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,40 +25,26 @@ export default function AuthButton() {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
+      setLoading(false);
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription?.unsubscribe();
+    };
   }, []);
 
   if (!hasEnvVars) {
     return (
       <div className="flex gap-4 items-center">
-        <div>
-          <Badge
-            variant={"default"}
-            className="font-normal pointer-events-none"
-          >
-            Please update .env.local file with anon key and url
-          </Badge>
-        </div>
+        <Badge variant="default" className="font-normal">
+          Please update .env.local file
+        </Badge>
         <div className="flex gap-2">
-          <Button
-            asChild
-            size="sm"
-            variant={"outline"}
-            disabled
-            className="opacity-75 cursor-none pointer-events-none"
-          >
-            <Link href="/sign-in">Sign in</Link>
+          <Button variant="outline" size="sm" disabled>
+            Sign in
           </Button>
-          <Button
-            asChild
-            size="sm"
-            variant={"default"}
-            disabled
-            className="opacity-75 cursor-none pointer-events-none"
-          >
-            <Link href="/sign-up">Sign up</Link>
+          <Button size="sm" disabled>
+            Sign up
           </Button>
         </div>
       </div>
@@ -65,21 +52,25 @@ export default function AuthButton() {
   }
 
   if (loading) {
-    return <div className="h-10 w-24 animate-pulse bg-muted rounded"></div>;
+    return <div className="h-10 w-24 animate-pulse bg-muted rounded" />;
   }
 
-  return user ? (
-    <div className="flex items-center gap-4">
-      <span className="text-sm">
-        Hey, {user.email?.split('@')[0]}!
-      </span>
-      <form action={signOutAction}>
-        <Button variant="outline" size="sm">
-          Sign out
-        </Button>
-      </form>
-    </div>
-  ) : (
+  if (user) {
+    return (
+      <div className="flex items-center gap-4">
+        <span className="text-sm">
+          Hey, {user.email?.split('@')[0]}!
+        </span>
+        <form action={signOutAction}>
+          <Button type="submit" variant="outline" size="sm">
+            Sign out
+          </Button>
+        </form>
+      </div>
+    );
+  }
+
+  return (
     <div className="flex gap-2">
       <Button asChild variant="outline" size="sm">
         <Link href="/sign-in">Sign in</Link>

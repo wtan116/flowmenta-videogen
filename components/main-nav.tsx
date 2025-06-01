@@ -3,11 +3,13 @@
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { ThemeSwitcher } from "./theme-switcher";
-import { hasEnvVars } from "@/utils/supabase/check-env-vars";
 import dynamic from "next/dynamic";
 
-// Import AuthButton with no SSR
-const AuthButton = dynamic(() => import("./header-auth"), { ssr: false });
+// Import the wrapper component
+const AuthButtonWrapper = dynamic(() => import("./auth-button-wrapper"), {
+  ssr: false,
+  loading: () => <div className="h-10 w-24" />
+});
 
 export function MainNav() {
   return (
@@ -35,7 +37,7 @@ export function MainNav() {
         
         <div className="flex items-center gap-4">
           <ThemeSwitcher />
-          <AuthButton />
+          <AuthButtonWrapper />
         </div>
       </div>
     </nav>
