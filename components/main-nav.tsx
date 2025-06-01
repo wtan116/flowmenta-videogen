@@ -5,9 +5,9 @@ import { Button } from "./ui/button";
 import { ThemeSwitcher } from "./theme-switcher";
 import dynamic from "next/dynamic";
 
-// Import the client component
-export const AuthClientButton = dynamic(
-  () => import("./auth-client-button"),
+// Import the client component with explicit type
+export const AuthClientButton = dynamic<{}>(
+  () => import("./auth-client-button").then((mod) => mod.default),
   { 
     ssr: false,
     loading: () => <div className="h-10 w-24" />

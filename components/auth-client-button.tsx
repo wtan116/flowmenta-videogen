@@ -9,26 +9,32 @@ import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 
-export default function AuthClientButton() {
+const AuthClientButton: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
     const supabase = createClient();
     
     // Get initial user
     supabase.auth.getUser().then(({ data: { user } }) => {
-      setUser(user);
-      setLoading(false);
+      if (isMounted) {
+        setUser(user);
+        setLoading(false);
+      }
     });
 
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
+      if (isMounted) {
+        setUser(session?.user ?? null);
+        setLoading(false);
+      }
     });
 
     return () => {
+      isMounted = false;
       subscription?.unsubscribe();
     };
   }, []);
@@ -80,4 +86,6 @@ export default function AuthClientButton() {
       </Button>
     </div>
   );
-}
+};
+
+export default AuthClientButton;
