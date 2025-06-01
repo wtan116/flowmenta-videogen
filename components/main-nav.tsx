@@ -6,7 +6,7 @@ import { ThemeSwitcher } from "./theme-switcher";
 import { hasEnvVars } from "@/utils/supabase/check-env-vars";
 import dynamic from "next/dynamic";
 
-// Dynamically import AuthButton with SSR disabled
+// Import AuthButton with no SSR
 const AuthButton = dynamic(() => import("./header-auth"), { ssr: false });
 
 export function MainNav() {
@@ -35,7 +35,7 @@ export function MainNav() {
         
         <div className="flex items-center gap-4">
           <ThemeSwitcher />
-          {hasEnvVars && <AuthButton />}
+          <AuthButton />
         </div>
       </div>
     </nav>
