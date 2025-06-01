@@ -5,11 +5,14 @@ import { Button } from "./ui/button";
 import { ThemeSwitcher } from "./theme-switcher";
 import dynamic from "next/dynamic";
 
-// Simple dynamic import for AuthButton
-const AuthButton = dynamic(() => import("./header-auth"), {
-  ssr: false,
-  loading: () => <div className="h-10 w-24" />
-});
+// Import the client component
+export const AuthClientButton = dynamic(
+  () => import("./auth-client-button"),
+  { 
+    ssr: false,
+    loading: () => <div className="h-10 w-24" />
+  }
+);
 
 export function MainNav() {
   return (
@@ -37,7 +40,7 @@ export function MainNav() {
         
         <div className="flex items-center gap-4">
           <ThemeSwitcher />
-          <AuthButton />
+          <AuthClientButton />
         </div>
       </div>
     </nav>

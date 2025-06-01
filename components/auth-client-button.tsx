@@ -9,8 +9,7 @@ import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 
-// Define the component as a regular function
-function AuthButton() {
+export default function AuthClientButton() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -82,6 +81,3 @@ function AuthButton() {
     </div>
   );
 }
-
-// Export as default
-export default AuthButton;
