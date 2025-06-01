@@ -5,14 +5,11 @@ import { Button } from "./ui/button";
 import { ThemeSwitcher } from "./theme-switcher";
 import dynamic from "next/dynamic";
 
-// Import AuthButton with no SSR and a loading fallback
-const AuthButton = dynamic(
-  () => import("./header-auth").then((mod) => mod.default),
-  { 
-    ssr: false,
-    loading: () => <div className="h-10 w-24" />
-  }
-);
+// Simple dynamic import for AuthButton
+const AuthButton = dynamic(() => import("./header-auth"), {
+  ssr: false,
+  loading: () => <div className="h-10 w-24" />
+});
 
 export function MainNav() {
   return (
