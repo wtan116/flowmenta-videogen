@@ -9,7 +9,8 @@ import { Button } from "./ui/button";
 import { createClient } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 
-export default function AuthButton() {
+// Named export for better type checking
+export function AuthButton() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -81,3 +82,6 @@ export default function AuthButton() {
     </div>
   );
 }
+
+// Default export for backward compatibility
+export default AuthButton;

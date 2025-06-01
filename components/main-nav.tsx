@@ -5,11 +5,14 @@ import { Button } from "./ui/button";
 import { ThemeSwitcher } from "./theme-switcher";
 import dynamic from "next/dynamic";
 
-// Import the wrapper component
-const AuthButtonWrapper = dynamic(() => import("./auth-button-wrapper"), {
-  ssr: false,
-  loading: () => <div className="h-10 w-24" />
-});
+// Import AuthButton with no SSR and a loading fallback
+const AuthButton = dynamic(
+  () => import("./header-auth").then((mod) => mod.default),
+  { 
+    ssr: false,
+    loading: () => <div className="h-10 w-24" />
+  }
+);
 
 export function MainNav() {
   return (
@@ -37,7 +40,7 @@ export function MainNav() {
         
         <div className="flex items-center gap-4">
           <ThemeSwitcher />
-          <AuthButtonWrapper />
+          <AuthButton />
         </div>
       </div>
     </nav>
